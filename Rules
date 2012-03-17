@@ -18,11 +18,11 @@ compile '*' do
   ext = item[:extension].nil? ? nil : item[:extension].split('.').last
 
   if ext == 'erb'
-    filter :erb
+    filter :erb, :trim_mode => '<>'
   elsif ext == 'haml' || ext.nil?
     filter :haml
   elsif ext == 'md' || ext == 'markdown'
-    filter :erb
+    filter :erb, :trim_mode => '<>'
     filter :rdiscount
   else
     raise "Filter is not configured for #{item.identifier} in Rules file."
@@ -42,4 +42,4 @@ route '*' do
   route_path(item)
 end
 
-layout '*', :haml
+layout '*', :erb, :trim_mode => '<>'

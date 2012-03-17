@@ -1,0 +1,16 @@
+<% if disqus_shortname %>
+  <div class='comments'>
+    <div id='disqus_thread'></div>
+	<script type='text/javascript' src='http://disqus.com/forums/<%= disqus_shortname %>/embed.js'></script>
+    <noscript>
+	<a href='http://disqus.com/forums/<%= disqus_shortname %>/?url=ref'>
+        View the discussion thread
+      </a>
+    </noscript>
+  </div>
+  <!-- / disqus adds too much visual crap -->
+  <style type='text/css'>
+    .dsq-dc-logo {
+      display: none !important; }
+  </style>
+<% end %>
