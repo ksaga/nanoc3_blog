@@ -1,9 +1,6 @@
 ---
 ---
 :ruby
-  # may be set by partials
-  @config[:include_disqus_js] = false
-
   def keywords
     if is_front_page?
       tag_set.join(', ') 
@@ -63,7 +60,7 @@
       .clear
 
     -# disqus: inserts number of commments     
-    - if @config[:include_disqus_js] == true
+    - if @include_disqus_js
       :javascript
         (function() {
           var links = document.getElementsByTagName('a');
