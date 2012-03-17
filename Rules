@@ -27,6 +27,8 @@ compile '*' do
 
   if ext == 'erb'
     filter :erb, :trim_mode => '<>'
+  elsif ext == 'cr' 
+    filter :wikicreole
   elsif ext == 'haml' || ext.nil?
     filter :haml
   elsif ext == 'md' || ext == 'markdown'
