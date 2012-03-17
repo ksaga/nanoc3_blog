@@ -1,0 +1,10 @@
+<%  t = rank_tags(5, @items)
+  sorted = t.keys.sort! { |a,b| a.downcase <=> b.downcase }
+  sorted.each do |tag|
+    if t[tag] < 4 # skip lower category
+%>
+<li><a class="tag<%= t[tag] %>" href="/tags/<%= tag %>/"><%= tag %></a></li>
+<%  
+    end
+  end 
+%>

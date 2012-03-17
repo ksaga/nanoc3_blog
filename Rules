@@ -4,6 +4,14 @@ preprocess do
   # authors may unpublish items by setting meta attribute publish: false
   items.delete_if { |item| item[:publish] == false }
 
+  # create tag cloud http://pastie.org/599853
+  cc = render('_tag_cloud', :items => items)
+  items.each do |item|
+    if not item[:cloudcode]
+      item[:cloudcode] = cc
+    end
+  end
+
   copy_static
   create_tag_pages
   add_update_item_attributes

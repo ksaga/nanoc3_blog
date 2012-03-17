@@ -1,9 +1,24 @@
 include Nanoc::Helpers::Rendering
 include Nanoc::Helpers::Blogging
 include Nanoc::Helpers::XMLSitemap
+include Nanoc::Helpers::LinkTo
+include Nanoc::Helpers::Breadcrumbs
 require 'builder'
 require 'fileutils'
 require 'time'
+
+# to make breadcrumb string
+def pankuzu
+  breadcrumbs_trail.compact.map do |crumb|
+    if crumb == breadcrumbs_trail.first
+      "#{link_to("Top", crumb.rep_named(:default))}"
+    elsif crumb == breadcrumbs_trail.last
+      "&nbsp;&gt;&nbsp;#{crumb[:title]}"
+    else
+      "&nbsp;&gt;&nbsp;#{link_to(crumb[:title], crumb.rep_named(:default))}"
+    end
+  end.join
+end
 
 # Hyphens are converted to sub-directories in the output folder.
 #

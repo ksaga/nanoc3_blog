@@ -53,6 +53,11 @@
         </div>
       </div>
       <div class='clear'></div>
+      <%= pankuzu %>
+      <h2>Tag cloud</h2>
+      <ul class="tagcloud">
+        <%= @item[:cloudcode] %>
+      </ul>
       <% if @item[:kind] == 'article' %>
         <%= render('_article', :item => @item, :content => content) %>
         <%= render('_other_articles_nav', :reference_item => @item) %>
