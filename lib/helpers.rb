@@ -153,7 +153,7 @@ def link_unless_current(s)
 end
 
 def item_excerpt(str, length = @config[:excerpt_len])
-  excerptize(str.gsub(/<[^>]*>/, '').gsub(/\s+/, ' ').strip, :length => length)
+  "<p>#{excerptize(str.gsub(/<[^>]*>/, '').gsub(/\s+/, ' ').strip, :length => length)}</p>"
 end
 
 def n_newer_articles(n, reference_item)
