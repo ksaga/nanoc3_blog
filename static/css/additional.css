@@ -1,0 +1,65 @@
+/* This file contains additional CSS over WordPress css */
+
+#access .separator {
+  line-height: 3.333em;
+  color: #eee;
+}
+
+/*--------------------------------------
+  Tag Cloud
+---------------------------------------*/
+
+#tag-cloud {
+  margin: 0;
+  padding: 0.5em 10px;
+  font-size: 13px;
+}
+
+#tag-cloud li {
+  margin: 0;
+  padding: 0;
+  display: inline;
+  font-size: 100%;
+}
+
+#tag-cloud li a {
+  text-decoration: none;
+}
+
+#tag-cloud li.lv1 a {
+  font-size: 167%;
+  font-weight: bold;
+  color: #424242;
+}
+
+#tag-cloud li.lv2 a {
+  font-size: 136%;
+  font-weight: bold;
+  color: #5e5e5e;
+}
+
+#tag-cloud li.lv3 a {
+  font-size: 122%;
+  font-weight: bold;
+  color: #7a7a7a;
+}
+
+#tag-cloud li.lv4 a {
+  font-size: 114%;
+  color: #979797;
+}
+
+#tag-cloud li.lv5 a {
+  font-size: 92%;
+  color: #b3b3b3;
+}
+
+#tag-cloud li.lv6 a {
+  font-size: 77%;
+  color: #cfcfcf;
+}
+
+#tag-cloud li a:hover {
+  color: #000;
+}
+

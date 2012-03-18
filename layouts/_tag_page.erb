@@ -1,8 +1,7 @@
-<h1>
-  <%= "#{tag.capitalize} Articles" %>
-</h1>
-<div class='tag-page'>
-  <% items_with_tag(tag).each do |item| %>
-    <%= render('_excerpt', :item => item) %>
-  <% end %>
-</div>
+<header class="page-header">
+  <h1 class="page-title">Tag: <%= tag.capitalize %></h1>
+  <div class="category-archive-meta"><p></p></div>
+</header>
+<% items_with_tag(tag).each do |item| %>
+  <%= render('_article', :item => item, :is_embedded => true) %>
+<% end %>

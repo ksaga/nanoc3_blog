@@ -1,90 +1,70 @@
 <!DOCTYPE html>
-<html>
-<% 
-  def keywords
-    if is_front_page?
-      tag_set.join(', ')
-    else
-      tags = @item[:tags].nil? ? '' : @item[:tags].join(', ')
-      keywords = @item[:keywords] || ''
-      [keywords, tags].join(', ')
-    end
-  end
-  def link_unless_current(s)
-    "<li><a href='/#{s}.html'>#{s}</a></li>" if @item.identifier != "/#{s}/"
-  end
-  def logo
-    if is_front_page?
-      site_name
-    else
-      "<a href='/'>&laquo; #{site_name}</a>"
-    end
-  end
-%>
-  <head>
-    <title><%= @item[:title] %></title>
-    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-    <meta name='keywords' content="<%= keywords %>" />
-    <meta name='description' content="<%= @item[:excerpt] %>" />
-    <link href='/assets/css/reset.css' rel='stylesheet' type='text/css' />
-    <link href='/assets/css/style.css' media='screen' rel='stylesheet' type='text/css' />
-  </head>
-  <body>
-    <%# needed since some content render <pre> blocks %>
-    <%# find_and_preserve(yield) %>
-    <% content = yield %>
-    <div id='main'>
-      <div id='header'>
-        <div class='logo'>
-          <%= logo %>
-        </div>
-        <div id='nav'>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title><%= @item[:title] %> - <%= @config[:site_name] %></title>
+  <meta name="description" content="<%= item_excerpt(content) %>">
+  <meta name="keywords" content="<%= keywords %>">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/additional.css">
+  <meta name="generator" content="nanoc <%= Nanoc.version_information %>/Ruby <%= ::VERSION %>">
+  <link rel="alternate" type="application/atom+xml" title="Recent Entries" href="<%= @config[:base_url] %>/atom.xml">
+
+  <%= render('_head_extra') %>
+</head>
+<body>
+  <div id="page">
+
+    <!-- Header -->
+    <header id="branding">
+      <hgroup>
+        <h1 id="site-title"><a href="/"><%= @config[:site_name] %></a></h1>
+        <h2 id="site-description"><%= @config[:site_description] %></h2>
+      </hgroup>
+
+      <!-- BannerAd -->
+      <div id="google-banner">
+        <%= render('_banner_ad') %>
+      </div>
+
+      <!-- Navigation -->
+      <nav id="access">
+        <h3 class="assistive-text">Breadcrumbs</h3>
+        <div class="menu">
           <ul>
-            <%= link_unless_current "about" %>
-            <%= link_unless_current "archives" %>
-            <%= link_unless_current "tags" %>
-            <li>
-              <a href='/atom.xml'>rss</a>
-            </li>
-            <li>
-              <a href='/license.html'>license</a>
-            </li>
+            <li><%= pankuzu.join('</li><li>') %></li>
           </ul>
         </div>
-      </div>
-      <div class='clear'></div>
-      <%= pankuzu %>
-      <h2>Tag cloud</h2>
-      <ul class="tagcloud">
-        <%= @item[:cloudcode] %>
-      </ul>
-      <% if @item[:kind] == 'article' %>
-        <%= render('_article', :item => @item, :content => content) %>
-        <%= render('_other_articles_nav', :reference_item => @item) %>
-        <div class='clear'></div>
-        <% if disqus_shortname && !is_front_page? %>
-          <%= render('_disqus', :item => @item) %>
-        <% end %>
-      <% else %>
-        <%= content %>
-      <% end %>
-      <div class='clear'></div>
-    </div>
-    <%# disqus: inserts number of commments %>
-    <% if @include_disqus_js %>
-      <script>
-        (function() {
-          var links = document.getElementsByTagName('a');
-          var query = '?';
-          for(var i = 0; i < links.length; i++) {
-            if(links[i].href.indexOf('#disqus_thread') >= 0) {
-              query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
-            }
-          }
-          document.write('<script charset=\"utf-8\" type=\"text/javascript\" src=\"http://disqus.com/forums/#{disqus_shortname}/get_num_replies.js' + query + '\"></' + 'script>');
-})();
-      </script>
-    <% end %>
-    <%= render('_ganalytics') %>
-  </body>
+      </nav>
+    </header>
+
+    <div id="main">
+      <div id="primary">
+        <div id="content">
+          <% if @item[:kind] == 'article' %>
+            <%= render('_article', :item => @item, :content => content) %>
+            <% if disqus_shortname && !is_front_page? %>
+              <div id="comments">
+                <%= render('_disqus', :item => @item) %>
+              </div><!-- #content -->
+            <% end %>
+          <% else %>
+            <%= content %>
+          <% end %>
+        </div><!-- #content -->
+      </div><!-- #primary -->
+
+      <div id="secondary">
+        <%= render('_sidebar', :item => @item) %>
+      </div><!-- #secondary -->
+
+      <br class="clear">
+    </div><!-- #main -->
+
+    <!-- footer -->
+    <footer id="colophon">
+      <%= render('_footer') %>
+    </footer><!-- #colophon -->
+  </div><!-- /#page -->
+</body>
 </html>

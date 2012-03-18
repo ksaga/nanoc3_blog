@@ -2,6 +2,7 @@ include Nanoc::Helpers::Rendering
 include Nanoc::Helpers::Blogging
 include Nanoc::Helpers::XMLSitemap
 include Nanoc::Helpers::LinkTo
+include Nanoc::Helpers::Text
 include Nanoc::Helpers::Breadcrumbs
 require 'builder'
 require 'fileutils'
@@ -12,12 +13,10 @@ def pankuzu
   breadcrumbs_trail.compact.map do |crumb|
     if crumb == breadcrumbs_trail.first
       "#{link_to("Top", crumb.rep_named(:default))}"
-    elsif crumb == breadcrumbs_trail.last
-      "&nbsp;&gt;&nbsp;#{crumb[:title]}"
-    else
-      "&nbsp;&gt;&nbsp;#{link_to(crumb[:title], crumb.rep_named(:default))}"
+    elsif not crumb[:is_hidden]
+      ["<span class='separator'>&gt;</span>", link_to(crumb[:title], crumb.rep_named(:default))]
     end
-  end.join
+  end.flatten
 end
 
 # Hyphens are converted to sub-directories in the output folder.
@@ -135,6 +134,27 @@ def is_front_page?
     @item.identifier == '/'
 end
 
+def keywords
+  if is_front_page?
+    tag_set.join(', ')
+  else
+    tags = @item[:tags] || []
+    keywords = (@item[:keywords] || '').split(', ')
+    (keywords + tags).uniq.join(', ')
+  end
+end
+
+def link_unless_current(s)
+  if @item.identifier != "/#{s}/"
+    "<a href='/#{s}.html'>#{s}</a>"
+  else
+    s
+  end
+end
+
+def item_excerpt(str, length = @config[:excerpt_len])
+  excerptize(str.gsub(/<[^>]*>/, '').gsub(/\s+/, ' ').strip, :length => length)
+end
 
 def n_newer_articles(n, reference_item)
   @sorted_articles ||= sorted_articles
@@ -165,20 +185,8 @@ def n_older_articles(n, reference_item)
 end
 
 
-def site_name
-  @config[:site_name]
-end
-
 def pretty_time(time)
   Time.parse(time).strftime("%b %d, %Y") if !time.nil?
-end
-
-def featured_count
-  @config[:featured_count].to_i
-end
-
-def excerpt_count
-  @config[:excerpt_count].to_i
 end
 
 def disqus_shortname 

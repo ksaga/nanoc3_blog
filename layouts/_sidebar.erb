@@ -1,0 +1,24 @@
+<aside class="widget">
+  <h3 class="widget-title">Nav</h3>
+  <ul>
+    <li><%= link_unless_current "about" %></li>
+    <li><%= link_unless_current "archives" %></li>
+    <li><%= link_unless_current "tags" %></li>
+    <li><a href='/atom.xml'>RSS</a></li>
+  </ul>
+</aside>
+
+<aside class="widget">
+  <h3 class="widget-title">Tag Cloud</h3>
+  <div>
+    <%= @item[:cloudcode] %>
+  </div>
+</aside>
+
+<aside class="widget">
+  <h3 class="widget-title">More Sidebar contents</h3>
+  <ul>
+    <li>More Sidebar contents</li>
+  </ul>
+</aside>
+

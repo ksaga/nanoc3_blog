@@ -1,14 +1,24 @@
-<% is_embedded ||= false %>
-<div class='article'>
-  <h1>
-    <% if is_embedded %>
-      <a class='permalink' href='<%= route_path(item) %>' title='Full article'><%= item[:title] %></a>
+<article class="hentry">
+  <header class="entry-header">
+    <h1 class="entry-title">
+      <% if @is_embedded %>
+        <a href='<%= route_path(item) %>' title='<%= item[:title] %>'><%= item[:title] %></a>
+      <% else %>
+        <%= item[:title] %>
+      <% end %>
+    </h1>
+  </header>
+  <div class='entry-content'>
+    <% str = content || partial(item) %>
+    <% if @is_embedded %>
+      <%= item_excerpt(str) %>
     <% else %>
-      <%= item[:title] %>
+      <%= str %>
     <% end %>
-  </h1>
-  <%= render('_meta', :item => item) %>
-  <div class='body'>
-    <%= content || partial(item) %>
   </div>
-</div>
+  <% if item[:kind] == 'article' %>
+    <footer class="entry-meta">
+      <%= render('_meta', :item => item) %>
+    </footer>
+  <% end %>
+</article>
